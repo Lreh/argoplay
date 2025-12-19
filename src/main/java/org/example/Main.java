@@ -14,7 +14,7 @@ public class Main {
                         new java.net.InetSocketAddress(8080), 0);
 
         server.createContext("/", exchange -> {
-            String response = "Hello from ArgoCD Java App!";
+            String response = "Hello from ArgoCD Java App!-22222222222";
             exchange.sendResponseHeaders(200, response.length());
             java.io.OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
