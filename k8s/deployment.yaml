@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: argoplay-container
-          image: lreh/argoplay:v1  # Replace with your actual image
+          image: lrehdocker/argoplay:v1  # Replace with your actual image
           ports:
             - containerPort: 8080
           resources:
