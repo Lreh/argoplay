@@ -6,7 +6,7 @@ import java.io.IOException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Starting argoplay server...")
+        System.out.println("Starting argoplay server...");
 
         // This opens the port so the Service has something to talk to
         com.sun.net.httpserver.HttpServer server =
