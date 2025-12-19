@@ -25,5 +25,18 @@ tasks.register('dockerBuild', Exec) {
     description = 'Builds the Docker image'
     dependsOn tasks.named('build')
 
-    commandLine 'docker', 'build', '-t', 'lreh/java-app:v1', '.'
+    commandLine 'docker', 'build', '-t', 'lrehdocker/java-app:v1', '.'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.example.Main'
+        )
+    }
+    // This logic bundles all dependency JARs into your single app.jar
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
