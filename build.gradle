@@ -25,6 +25,5 @@ tasks.register('dockerBuild', Exec) {
     description = 'Builds the Docker image'
     dependsOn tasks.named('build')
 
-    // Replace 'my-user' with your Docker Hub username
     commandLine 'docker', 'build', '-t', 'lreh/java-app:v1', '.'
 }
