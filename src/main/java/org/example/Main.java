@@ -1,22 +1,27 @@
 package org.example;
 
+import java.io.IOException;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws IOException {
+        System.out.println("Starting argoplay server...");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // This opens the port so the Service has something to talk to
+        com.sun.net.httpserver.HttpServer server =
+                com.sun.net.httpserver.HttpServer.create(
+                        new java.net.InetSocketAddress(8080), 0);
 
-        while (true) {
-            Thread.sleep(10000);
-        }
+        server.createContext("/", exchange -> {
+            String response = "Hello from ArgoCD Java App!";
+            exchange.sendResponseHeaders(200, response.length());
+            java.io.OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        });
 
+        server.start();
+        System.out.println("Listening on port 8080...");
     }
 }
