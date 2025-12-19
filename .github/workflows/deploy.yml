@@ -23,7 +23,7 @@ jobs:
           cache: gradle
 
       - name: Build with Gradle
-        run: ./gradlew build  # Or ./mvnw package if using Maven
+        run: ./gradlew build
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
