@@ -4,7 +4,7 @@ metadata:
   name: helm-argoplay
   namespace: argocd
 
-annotations:
+  annotations:
     # 1. List the image to watch (alias=image_path)
     argocd-image-updater.argoproj.io/image-list: lrehdocker/argoplay
     
