@@ -75,9 +75,10 @@ livenessProbe:
     path: /
     port: http
 readinessProbe:
-  httpGet:
-    path: /      # Or /actuator/health if using Spring Boot
-    port: 8080   # <--- CHANGE THIS from 80 to 8080 (or your app's port)
+  tcpSocket:        # Use tcpSocket if you don't have a specific HTTP path
+    port: 8080      # Match your Java code port
+  initialDelaySeconds: 15
+  periodSeconds: 5
 
 autoscaling:
   enabled: false
