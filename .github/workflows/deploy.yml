@@ -39,6 +39,7 @@ jobs:
           push: true
           tags: |
             lrehdocker/argoplay:latest
+            lrehdocker/argoplay:${{ github.run_number }}
             
       - name: Update Helm Chart Version
         run: |
