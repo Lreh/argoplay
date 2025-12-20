@@ -36,4 +36,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: lrehdocker/argoplay:v1
+          tags: |
+            lrehdocker/argoplay:${{ github.sha }}
+            lrehdocker/argoplay:latest
+            
