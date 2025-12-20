@@ -40,3 +40,14 @@ jobs:
             lrehdocker/argoplay::1.16.0
             lrehdocker/argoplay:latest
             
+      - name: Update Helm Chart Version
+        run: |
+          # 1. Update the appVersion in Chart.yaml
+          # Replace '1.16.0' with your dynamic version variable if you have one
+          sed -i "s/^appVersion: .*/appVersion: \"${{ github.run_number }}\"/" charts/java-app/Chart.yaml
+          # 2. Commit and push the change back to the repo
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add charts/java-app/Chart.yaml
+          git commit -m "chore: update appVersion to ${{ github.run_number }}"
+          git push
