@@ -76,8 +76,8 @@ livenessProbe:
     port: http
 readinessProbe:
   httpGet:
-    path: /
-    port: http
+    path: /      # Or /actuator/health if using Spring Boot
+    port: 8080   # <--- CHANGE THIS from 80 to 8080 (or your app's port)
 
 autoscaling:
   enabled: false
