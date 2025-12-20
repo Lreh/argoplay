@@ -6,7 +6,7 @@ metadata:
 
 annotations:
     # 1. List the image to watch (alias=image_path)
-    argocd-image-updater.argoproj.io/image-list: my-java-app=lrehdocker/argoplay
+    argocd-image-updater.argoproj.io/image-list: lrehdocker/argoplay
     
     # 2. Set the update strategy (semver, latest, or newest-build)
     argocd-image-updater.argoproj.io/my-java-app.update-strategy: latest
