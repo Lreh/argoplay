@@ -13,7 +13,6 @@ spec:
       # You can point to different value files for different environments
       valueFiles:
         - values.yaml
-        - values-prod.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
