@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: lrehdocker/argoplay:v1
+  repository: lrehdocker/argoplay
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
