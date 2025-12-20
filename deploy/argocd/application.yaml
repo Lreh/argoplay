@@ -5,18 +5,10 @@ metadata:
   namespace: argocd
 
   annotations:
-    # 1. List the image to watch (alias=image_path)
     argocd-image-updater.argoproj.io/image-list: my-app=lrehdocker/argoplay
-    
-    # 2. Set the update strategy (semver, latest, or newest-build)
-    argocd-image-updater.argoproj.io/my-java-app.update-strategy: latest
-    
-    # 3. CRITICAL: Map the tag update to your Helm values
-    argocd-image-updater.argoproj.io/my-java-app.helm.image-name: image.repository
-    argocd-image-updater.argoproj.io/my-java-app.helm.image-tag: image.tag
-    
-    # 4. Choose how to save the change (argocd or git)
-    argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/my-app.update-strategy: latest
+    argocd-image-updater.argoproj.io/my-app.helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/my-app.helm.image-tag: image.tag
 
 spec:
   project: default
