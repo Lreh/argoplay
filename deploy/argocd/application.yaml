@@ -4,12 +4,6 @@ metadata:
   name: helm-argoplay
   namespace: argocd
 
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: my-app=lrehdocker/argoplay
-    argocd-image-updater.argoproj.io/my-app.update-strategy: latest
-    argocd-image-updater.argoproj.io/my-app.helm.image-name: image.repository
-    argocd-image-updater.argoproj.io/my-app.helm.image-tag: image.tag
-
 spec:
   project: default
   source:
