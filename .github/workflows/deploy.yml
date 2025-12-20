@@ -37,7 +37,6 @@ jobs:
           context: .
           push: true
           tags: |
-            lrehdocker/argoplay::1.16.0
             lrehdocker/argoplay:latest
             
       - name: Update Helm Chart Version
