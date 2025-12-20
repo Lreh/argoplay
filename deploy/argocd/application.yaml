@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: java-service-prod
+  name: helm-argoplay
   namespace: argocd
 spec:
   project: default
