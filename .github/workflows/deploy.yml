@@ -26,8 +26,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: List files for debugging
-        run: find . -name "*.jar"
+      - name: Locate JAR files (Debug)
+        run: |
+          echo "--- Scanning for JAR files ---"
+          find . -name "*.jar"
+          echo "-----------------------------"
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
