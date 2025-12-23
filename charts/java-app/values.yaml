@@ -72,15 +72,16 @@ resources: {}
 
 livenessProbe:
   httpGet:
-    path: /actuator/health/liveness
+    path: /actuator/health/liveness # Or your health endpoint
     port: 8080
-  failureThreshold: 3
+  initialDelaySeconds: 90  # Increased: Java needs time to start
   periodSeconds: 10
-startupProbe:
+  failureThreshold: 3
+readinessProbe:
   httpGet:
-    path: /actuator/health/liveness
+    path: /actuator/health/readiness
     port: 8080
-  failureThreshold: 30 # Gives the app 300 seconds (30 * 10s) to start
+  initialDelaySeconds: 60  # Give it a minute before sending traffic
   periodSeconds: 10
 
 autoscaling:
