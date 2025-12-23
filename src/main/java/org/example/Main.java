@@ -16,12 +16,19 @@ public class Main {
         HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8080), 0);
 
 
-        // Main Business Logic
         server.createContext("/", exchange -> {
-            String response = "Current Server Time: " + java.time.LocalDateTime.now();
-            exchange.sendResponseHeaders(200, response.length());
+            // Create a valid JSON string
+            String now = java.time.LocalDateTime.now().toString();
+            String response = "{\"status\":\"UP\", \"serverTime\":\"" + now + "\"}";
+
+            // Set header to application/json so the browser/client knows what it is
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+            byte[] responseBytes = response.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, responseBytes.length);
+
             try (java.io.OutputStream os = exchange.getResponseBody()) {
-                os.write(response.getBytes());
+                os.write(responseBytes);
             }
         });
 
