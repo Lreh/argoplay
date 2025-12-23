@@ -42,8 +42,8 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-            path: {{ .Values.probes.livenessPath }}
-            port: {{ .Values.service.targetPort }}
+              path: {{ .Values.probes.livenessPath }}
+              port: {{ .Values.service.targetPort }}
             initialDelaySeconds: {{ .Values.probes.livenessDelay }}
             timeoutSeconds: 5
           readinessProbe:
