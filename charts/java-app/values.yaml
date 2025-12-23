@@ -40,7 +40,11 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  ports:
+    - port: 8080       # The "Front Door" (what you use in port-forward)
+      targetPort: 8080 # The "Back Door" (what your Java app uses)
+      protocol: TCP
+      name: http
 
 ingress:
   enabled: false
