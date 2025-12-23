@@ -40,14 +40,21 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+
+
           livenessProbe:
             httpGet:
-              path: {{ .Values.probes.livenessPath }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.probes.livenessDelay }}
-            timeoutSeconds: 5
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+              path: { { .Values.probeSettings.livenessPath } }
+              port: { { .Values.service.targetPort } }
+            initialDelaySeconds: { { .Values.probeSettings.initialDelaySeconds } }
+            timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+            readinessProbe:
+              httpGet:
+                path: { { .Values.probeSettings.readinessPath } }
+                port: { { .Values.service.targetPort } }
+              initialDelaySeconds: 60
+              timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
             {{- with .Values.volumeMounts }}

@@ -45,6 +45,13 @@ service:
   protocol: TCP
   name: http
 
+# Define probe settings as raw data here
+probeSettings:
+  livenessPath: /health
+  readinessPath: /health
+  initialDelaySeconds: 90
+  timeoutSeconds: 5
+
 ingress:
   enabled: false
   className: ""
