@@ -49,7 +49,7 @@ service:
 probeSettings:
   livenessPath: /health
   readinessPath: /health
-  initialDelaySeconds: 90
+  initialDelaySeconds: 120
   timeoutSeconds: 5
 
 ingress:
