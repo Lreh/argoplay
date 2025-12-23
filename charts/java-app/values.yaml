@@ -77,7 +77,7 @@ resources: {}
 # Add this to your container spec in the deployment YAML
 startupProbe:
   httpGet:
-    port: {{ .Values.service.targetPort }} # Must match the containerPort!
+  port: {{ .Values.service.targetPort }} # Must match the containerPort!
   failureThreshold: 30  # 30 tries...
   periodSeconds: 10     # ...every 10 seconds = 300 seconds (5 mins) of boot time
 
