@@ -22,26 +22,4 @@ spec:
       prune: true
       selfHeal: true
 
-# Add this to your container spec in the deployment YAML
-startupProbe:
-  httpGet:
-  port: 8080
-  failureThreshold: 30  # 30 tries...
-  periodSeconds: 10     # ...every 10 seconds = 300 seconds (5 mins) of boot time
-
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 90
-  timeoutSeconds: 5      # Increased from 1s
-  periodSeconds: 10
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 60
-  timeoutSeconds: 5      # Increased from 1s
-  periodSeconds: 10
 
