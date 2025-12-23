@@ -84,17 +84,17 @@ startupProbe:
 
 livenessProbe:
   httpGet:
-    path: /health # Or your health endpoint
+    path: /health
     port: 8080
-  initialDelaySeconds: 90  # Increased: Java needs time to start
+  initialDelaySeconds: 90
+  timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
-  failureThreshold: 3
-
 readinessProbe:
   httpGet:
     path: /health
     port: 8080
-  initialDelaySeconds: 60  # Give it a minute before sending traffic
+  initialDelaySeconds: 60
+  timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
 
 autoscaling:
