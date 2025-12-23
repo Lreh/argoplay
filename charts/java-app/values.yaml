@@ -40,11 +40,10 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  ports:
-    - port: 8080       # The "Front Door" (what you use in port-forward)
-      targetPort: 8080 # The "Back Door" (what your Java app uses)
-      protocol: TCP
-      name: http
+  port: 8080
+  targetPort: 8080  # This is just a plain number now
+  protocol: TCP
+  name: http
 
 ingress:
   enabled: false
@@ -77,21 +76,21 @@ resources: {}
 # Add this to your container spec in the deployment YAML
 startupProbe:
   httpGet:
-  port: {{ .Values.service.targetPort }} # Must match the containerPort!
+  port: 8080
   failureThreshold: 30  # 30 tries...
   periodSeconds: 10     # ...every 10 seconds = 300 seconds (5 mins) of boot time
 
 livenessProbe:
   httpGet:
     path: /health
-    port: {{ .Values.service.targetPort }} # Must match the containerPort!
+    port: 8080
   initialDelaySeconds: 90
   timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
 readinessProbe:
   httpGet:
     path: /health
-    port: {{ .Values.service.targetPort }} # Must match the containerPort!
+    port: 8080
   initialDelaySeconds: 60
   timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
