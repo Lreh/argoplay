@@ -77,22 +77,21 @@ resources: {}
 # Add this to your container spec in the deployment YAML
 startupProbe:
   httpGet:
-    path: /health # Ensure this path is correct for your app!
-    port: 8080
+    port: {{ .Values.service.targetPort }} # Must match the containerPort!
   failureThreshold: 30  # 30 tries...
   periodSeconds: 10     # ...every 10 seconds = 300 seconds (5 mins) of boot time
 
 livenessProbe:
   httpGet:
     path: /health
-    port: 8080
+    port: {{ .Values.service.targetPort }} # Must match the containerPort!
   initialDelaySeconds: 90
   timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
 readinessProbe:
   httpGet:
     path: /health
-    port: 8080
+    port: {{ .Values.service.targetPort }} # Must match the containerPort!
   initialDelaySeconds: 60
   timeoutSeconds: 5      # Increased from 1s
   periodSeconds: 10
