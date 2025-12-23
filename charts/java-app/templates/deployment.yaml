@@ -30,38 +30,52 @@ spec:
       serviceAccountName: {{ include "java-app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
       containers:
-        - name: {{ .Chart.Name }}
+        - name: { { .Chart.Name } }
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            { { - toYaml .Values.securityContext | nindent 12 } }
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: { { .Values.image.pullPolicy } }
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: { { .Values.service.targetPort } }
               protocol: TCP
+          # env goes inside the container spec
+          env:
+            - name: JAVA_OPTS
+              value: { { .Values.javaOpts | quote } }
 
-
+          # Probes are siblings under the container
           livenessProbe:
             httpGet:
               path: { { .Values.probeSettings.livenessPath } }
               port: { { .Values.service.targetPort } }
             initialDelaySeconds: { { .Values.probeSettings.initialDelaySeconds } }
             timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
-            readinessProbe:
-              httpGet:
-                path: { { .Values.probeSettings.readinessPath } }
-                port: { { .Values.service.targetPort } }
-              initialDelaySeconds: 60
-              timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: { { .Values.probeSettings.readinessPath } }
+              port: { { .Values.service.targetPort } }
+            initialDelaySeconds: 60
+            timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+            periodSeconds: 10
 
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-            {{- with .Values.volumeMounts }}
+            { { - toYaml .Values.resources | nindent 12 } }
+          { { - with .Values.volumeMounts } }
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-      {{- with .Values.volumes }}
+            { { - toYaml . | nindent 12 } }
+          { { - end } }
+        # volumes, nodeSelector, etc. go back to the pod spec level (indent 6 or 8)
+        { { - with .Values.volumes } }
+        volumes:
+          { { - toYaml . | nindent 8 } }
+        { { - end } }
+
+       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
