@@ -11,7 +11,7 @@ public class Main {
         // This opens the port so the Service has something to talk to
         com.sun.net.httpserver.HttpServer server =
                 com.sun.net.httpserver.HttpServer.create(
-                        new java.net.InetSocketAddress(8070), 0);
+                        new java.net.InetSocketAddress(8080), 0);
 
         server.createContext("/", exchange -> {
             // 1. Get the current time when the request hits
@@ -34,6 +34,6 @@ public class Main {
             System.out.println("Served request at: " + formattedTime);
         });
         server.start();
-        System.out.println("Listening on port 8070 ...");
+        System.out.println("Listening on port 8080 ...");
     }
 }
