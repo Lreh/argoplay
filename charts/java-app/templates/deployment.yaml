@@ -19,9 +19,6 @@ spec:
       {{- end }}
       labels:
         {{- include "java-app.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -30,55 +27,35 @@ spec:
       serviceAccountName: {{ include "java-app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-
       containers:
-        - name: { { .Chart.Name } }
+        - name: {{ .Chart.Name }}
           securityContext:
-            { { - toYaml .Values.securityContext | nindent 12 } }
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: { { .Values.service.targetPort } }
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
-          # env goes inside the container spec
           env:
             - name: JAVA_OPTS
-              value: { { .Values.javaOpts | quote } }
-
-          # Probes are siblings under the container
+              value: {{ .Values.javaOpts | quote }}
           livenessProbe:
             httpGet:
-              path: { { .Values.probeSettings.livenessPath } }
-              port: { { .Values.service.targetPort } }
-            initialDelaySeconds: { { .Values.probeSettings.initialDelaySeconds } }
-            timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+              path: {{ .Values.probeSettings.livenessPath }}
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: {{ .Values.probeSettings.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.probeSettings.timeoutSeconds }}
             periodSeconds: 10
-
           readinessProbe:
             httpGet:
-              path: { { .Values.probeSettings.readinessPath } }
-              port: { { .Values.service.targetPort } }
+              path: {{ .Values.probeSettings.readinessPath }}
+              port: {{ .Values.service.targetPort }}
             initialDelaySeconds: 60
-            timeoutSeconds: { { .Values.probeSettings.timeoutSeconds } }
+            timeoutSeconds: {{ .Values.probeSettings.timeoutSeconds }}
             periodSeconds: 10
-
           resources:
-            { { - toYaml .Values.resources | nindent 12 } }
-          { { - with .Values.volumeMounts } }
-          volumeMounts:
-            { { - toYaml . | nindent 12 } }
-          { { - end } }
-        # volumes, nodeSelector, etc. go back to the pod spec level (indent 6 or 8)
-        { { - with .Values.volumes } }
-        volumes:
-          { { - toYaml . | nindent 8 } }
-        { { - end } }
-
-       {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -91,30 +68,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-env:
-  - name: JAVA_OPTS
-    value: {{ .Values.javaOpts | quote }}
-
-# Add this to your container spec in the deployment YAML
-startupProbe:
-  httpGet:
-  port: 8080
-  failureThreshold: 30  # 30 tries...
-  periodSeconds: 10     # ...every 10 seconds = 300 seconds (5 mins) of boot time
-
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 90
-  timeoutSeconds: 5      # Increased from 1s
-  periodSeconds: 10
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 60
-  timeoutSeconds: 5      # Increased from 1s
-  periodSeconds: 10
-
