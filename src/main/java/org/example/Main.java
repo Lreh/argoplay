@@ -9,19 +9,14 @@ import java.net.InetSocketAddress;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Starting server...");
+        System.out.println("Micronaut Starting server...");
 
-        // This opens the port so the Service has something to talk to
-        // Force binding to 0.0.0.0 (all IPv4 interfaces)
-        HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8080), 0);
-
+         HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8080), 0);
 
         server.createContext("/", exchange -> {
-            // Create a valid JSON string
             String now = java.time.LocalDateTime.now().toString();
             String response = "{\"status\":\"UP\", \"serverTime\":\"" + now + "\"}";
 
-            // Set header to application/json so the browser/client knows what it is
             exchange.getResponseHeaders().set("Content-Type", "application/json");
 
             byte[] responseBytes = response.getBytes(java.nio.charset.StandardCharsets.UTF_8);
