@@ -55,4 +55,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add charts/java-app/Chart.yaml
           git commit -m "chore: update appVersion to 1.0.${{ github.run_number }}"
+          git tag "1.0.${{ github.run_number }}"
+          git push origin "1.0.${{ github.run_number }}"
           git push
