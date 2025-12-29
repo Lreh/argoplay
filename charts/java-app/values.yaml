@@ -109,3 +109,6 @@ affinity: {}
 
 javaOpts: "-Xms512m -Xmx1024m"
 
+config:
+  environment: "default"
+  logLevel: "INFO"

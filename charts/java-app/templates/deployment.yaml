@@ -40,6 +40,9 @@ spec:
           env:
             - name: JAVA_OPTS
               value: {{ .Values.javaOpts | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "java-app.fullname" . }}-config
           livenessProbe:
             httpGet:
               path: {{ .Values.probeSettings.livenessPath }}
