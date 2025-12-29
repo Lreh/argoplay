@@ -15,7 +15,10 @@ public class Main {
 
         server.createContext("/", exchange -> {
             String now = java.time.LocalDateTime.now().toString();
-            String response = "{\"status\":\"UP\", \"serverTime\":\"" + now + "\"}";
+            String env = System.getenv().getOrDefault("environment", "unknown");
+            String logLevel = System.getenv().getOrDefault("logLevel", "unknown");
+            
+            String response = String.format("{\"status\":\"UP\", \"serverTime\":\"%s\", \"environment\":\"%s\", \"logLevel\":\"%s\"}", now, env, logLevel);
 
             exchange.getResponseHeaders().set("Content-Type", "application/json");
 
